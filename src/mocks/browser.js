@@ -16,4 +16,19 @@ export const handlers = [
       { status: 200 }
     );
   }),
+  // 추가
+  http.post("/todo", async ({ request }) => {
+    const { todo } = await request.json();
+    console.log(todo);
+    const newTodo = {
+      todoId: todos.length ? todos[todos.length - 1].todoId + 1 : 1,
+      content: todo,
+      isFinish: false,
+    };
+    todos.push(newTodo);
+    return HttpResponse.json({
+      message: "Todo added successfully",
+      todos,
+    });
+  }),
 ];
