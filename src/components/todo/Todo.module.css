@@ -25,11 +25,27 @@
   }
 }
 
+.buttonGroup {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
 .finishBtn {
   width: 100%;
   height: 100%;
   font-size: 1rem;
   padding: 0 0.5rem;
   background-color: chocolate;
+  text-decoration: none;
+}
+
+.deleteBtn {
+  width: 100%;
+  height: 100%;
+  font-size: 1rem;
+  padding: 0 0.5rem;
+  background-color: crimson;
   text-decoration: none;
 }
