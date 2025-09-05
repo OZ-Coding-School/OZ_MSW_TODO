@@ -11,13 +11,13 @@ const TODOs = [
 ];
 
 function App() {
-  const { todos, addTodo, finishTodo } = useTodoHandler();
+  const { todos, addTodo, finishTodo, deleteTodo } = useTodoHandler();
 
   return (
     <div className={styles.app}>
       <Navbar />
       <AddTodoSection addTodo={addTodo} />
-      <TodoList todos={TODOs} finishTodo={finishTodo} />
+      <TodoList todos={TODOs} finishTodo={finishTodo} deleteTodo={deleteTodo} />
     </div>
   );
 }
