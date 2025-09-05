@@ -4,6 +4,7 @@ import { useModal } from "../../context/ModalContext";
 export const useTodoHandler = () => {
   const { openModal, closeModal } = useModal();
   const [todos, setTodos] = useState([]);
+  const [todoGetTrigger, setTodoGetTrigger] = useState(0);
 
   const addTodo = async (newTodo) => {
     const body = {
@@ -42,6 +43,26 @@ export const useTodoHandler = () => {
     });
   };
 
+  const deleteTodo = async (todoId) => {
+    try {
+      const response = await fetch(`/todo/${todoId}`, {
+        method: "DELETE",
+      });
+      if (!response.ok) throw new Error("Failed to delete todo");
+      setTodoGetTrigger((prev) => prev + 1);
+    } catch (error) {
+      const modalData = {
+        modalId: "deleteTodoError",
+        mode: "alert",
+        title: "Todo 삭제 실패",
+        contents: "Todo를 삭제하는데 실패했습니다. 다시 시도해주세요.",
+        confirmAction: () => closeModal("deleteTodoError"),
+      };
+      openModal(modalData);
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     const getTodos = async () => {
       try {
@@ -63,7 +84,7 @@ export const useTodoHandler = () => {
       }
     };
     getTodos();
-  }, []);
+  }, [todoGetTrigger]);
 
-  return { todos, addTodo, finishTodo };
+  return { todos, addTodo, finishTodo, deleteTodo };
 };
