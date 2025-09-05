@@ -2,16 +2,12 @@ import { useEffect, useState } from "react";
 import { useModal } from "../../context/ModalContext";
 
 export const useTodoHandler = () => {
-  const [todos, setTodos] = useState([]);
   const { openModal, closeModal } = useModal();
+  const [todos, setTodos] = useState([]);
 
-  const addTodo = async () => {
+  const addTodo = async (newTodo) => {
     const body = {
-      todo: {
-        id: todos.length,
-        content: "프론트엔드 공부",
-        isFinish: false,
-      },
+      todo: newTodo,
     };
     try {
       const response = await fetch("/todo", {
@@ -36,13 +32,14 @@ export const useTodoHandler = () => {
   };
 
   const finishTodo = (todoId) => {
-    setTodos((prev) =>
-      prev.map((todo, _, origin) => {
+    setTodos((prev) => {
+      prev.forEach((todo, idx, origin) => {
         if (todo.todoId === todoId) {
-          origin.isFinish = true;
+          origin[idx].isFinish = !origin[idx].isFinish;
         }
-      })
-    );
+      });
+      return [...prev];
+    });
   };
 
   useEffect(() => {
@@ -67,5 +64,6 @@ export const useTodoHandler = () => {
     };
     getTodos();
   }, []);
+
   return { todos, addTodo, finishTodo };
 };
