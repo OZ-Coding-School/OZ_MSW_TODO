@@ -10,7 +10,7 @@ const AddTodoSection = ({ addTodo }) => {
   return (
     <div className={styles.container}>
       <input type="text" value={newTodo} onChange={handleInput} />
-      <AddTodoBtn onClick={addTodo} />
+      <AddTodoBtn onClick={() => addTodo(newTodo)} />
     </div>
   );
 };
