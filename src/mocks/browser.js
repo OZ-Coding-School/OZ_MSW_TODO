@@ -31,4 +31,20 @@ export const handlers = [
       todos,
     });
   }),
+  // 삭제
+  http.delete("/todo/:id", (req) => {
+    const { id } = req.params;
+    const index = todos.findIndex((todo) => todo.todoId === Number(id));
+    if (index !== -1) {
+      todos.splice(index, 1);
+      return HttpResponse.json(
+        {
+          message: "Todo deleted successfully",
+        },
+        { status: 204 }
+      );
+    } else {
+      return HttpResponse.json({ message: "Todo not found" }, { status: 400 });
+    }
+  }),
 ];
